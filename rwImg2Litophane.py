@@ -12,20 +12,32 @@ from stl import mesh
 
 check = 0
 
-pic = imageio.imread('C:/Users/Nathan/Downloads/temp/lampShade-Imgs/Project-Requests/FnBL-resized for modeling--Opt2.jpg')
+########################################################################################################
+#    Here is an updated version of converting the image from rgb to greyscale
+# rgb_image = imageio.imread('images\Seylann01.jpg')
+# greyscale_image = numpy.dot(rgb_image[..., :3], [0.2989, 0.587, 0.114])
+# # greyscale_image = numpy.clip(greyscale_image, 0, 255).astype(numpy.uint8)
+# output_image = 'image\GREY-Seylann01.jpg'
+
+# imageio.imwrite(output_image, greyscale_image)
+########################################################################################################
+
+
+
+
 # an lithophane that is 124mmx220mm is produced by an image that is 309x550px (27,280 pixels)
 # this makes my array 309 x 550
-plt.figure(figsize=(30, 30))
-
+plt.figure(figsize=(30, 30));
+pic = imageio.imread(r"images/Nat/NatalieLithophane0.jpeg")
 plt.imshow(pic)
 #plt.show()
 print('Type of the image : ', type(pic))
 print()
 print('Shape of the image : {}'.format(pic.shape))
 height = int(format(pic.shape[0]))
-print('Image Hight: ', height)
+print('Image Hight: ', height, 'pixels')
 width = int(format(pic.shape[1]))
-print('Image Width ', width)
+print('Image Width ', width, 'pixels')
 print('Dimension of Image {}'.format(pic.ndim))
 
 #f = open('C:/Users/Nathan/Downloads/temp/samplePixelData.txt', 'a')
@@ -41,8 +53,8 @@ img2surfX = 0.0
 img2surfY = 0.0
 img2surfX = height * 0.4
 img2surfY = width * 0.4
-print("the image height is now: {}".format(img2surfX))
-print("the image width is now: {}".format(img2surfY))
+print("the image height is now: {} mm".format(img2surfX))
+print("the image width is now: {} mm".format(img2surfY))
 for x in range(height):
     #px = 0.0
     py = 0.0
@@ -139,7 +151,7 @@ for x in range(height):
             arry = numpy.array([py, px, pz])
             vertices = numpy.vstack((vertices, arry))
         py += 0.4
-
+    print("Pixel row {} done.".format(x))
     px += 0.4
 # f.close()
 # ###############################
@@ -196,10 +208,11 @@ for i, f in enumerate(faces):
     for j in range(3):
         surface.vectors[i][j] = faceNp[i][j]
 # writing mesh to file "litho.stl"
-surface.save('C:/Users/Nathan/Downloads/temp/lampShade-Imgs/Project-Requests/FnBL--resized-Opt2.stl')
-print("number of faces: {}" .format(len(faces)))
-print(surface)
-
-
-
-print("Mesh was Generated Successfully")
+if (surface.save(r"images/Nat/start/NatLitho1.0.stl")):
+    print("number of faces: {}" .format(len(faces)))
+    print(surface)
+    print("Mesh was Generated Successfully")
+else:
+    surface.save(r"images/Nat/start/NatLitho1.1.stl")
+    surface.save(r'images\Nat\NatLitho1.2.stl')
+    print("There was issues saving thing...")
